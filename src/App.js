@@ -1,5 +1,6 @@
 import React from 'react';
 import './App.css';
+import Game from './Game'
 
 function App() {
   return (
@@ -8,7 +9,10 @@ function App() {
         <p>
           Memory Game
         </p>
+        <nav></nav>
       </header>
+      <main>
+      </main>
     </div>
   );
 }
