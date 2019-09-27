@@ -3,8 +3,12 @@ import ReactDOM from 'react-dom';
 
 import './index.css';
 
-const NavBar = ()=>(<nav>
-  <ul><a href="#">Home</a><li><a href="#">Tic Tack Toe</a></li></ul>
+const NavBar = ({chooseGame, game})=>(<nav>
+  <ul>
+    <a href="#">Home</a>
+    <li><button className={} onClick={()=>chooseGame('ticTacToe')}>Tic Tack Toe</button></li>
+    <li><button onClick={()=>chooseGame('memory')}>Memory</button></li>
+  </ul>
 </nav>);
 const Display = ()=>{
   return (
@@ -28,21 +32,38 @@ const Board = ()=>{
     </div>
   );
 };
-const Game = ()=>{
-  return (
-    <div className="game">
-      <div className="title">
-        <h1>Tic Tac Toe</h1>
-      </div>
-      <Display />
-      <Board />
-    </div>);
+const Game = ({game}) =>{
+  let games = { 
+    'ticTacToe': (
+      <div className="game">
+        <div className="title">
+          <h1>Tic Tac Toe</h1>
+        </div>
+        <Display />
+        <Board />
+      </div>),
+    'memory': (
+      <div className="game">
+        <div className="title">
+          <h1>Memory</h1>
+        </div>
+        <Display />
+        <div>Memory Board</div>
+      </div>)
+  };
+  return games[game] || games['ticTacToe'];
 };
 
-const App = () => (<div className="container">
-  <NavBar />
-  <Game />
-</div>);
+const App = () => {
+  const [game, setGame] = useState(
+    'memory'
+  );
+
+  return (<div className="container">
+    <NavBar game={game} chooseGame={setGame}/>
+    <Game game={game} />
+  </div>);
+};
 
 ReactDOM.render(
   <App />,
