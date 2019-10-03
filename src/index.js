@@ -15,6 +15,8 @@ const Btn = ({handleClick, buttonText, className})=>(
 
 // Molecules
 const Board = ({row, col, peices} = {row:3, col:3, peices:[]})=>{
+  document.documentElement.style.setProperty('--row', row);
+  document.documentElement.style.setProperty('--col', col);
   console.log(row, col);
   let squares = new Array(row * col).fill(1).map((v,i)=>(<div className="square"><button>{i}</button></div>));
   return (<div className="board">{squares}</div>);

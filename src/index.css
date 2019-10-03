@@ -34,11 +34,11 @@ nav {
   height: 98vh;
   grid-template-rows: 1fr 1fr 8fr;
 }
-
-.board {
+:root {
   --row: 3;
   --col: 3;
-
+}
+.board {
   display: grid;
   grid-template: repeat(var(--row), 1fr) / repeat(var(--col), 1fr);
 }
