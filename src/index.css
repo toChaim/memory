@@ -32,9 +32,16 @@ nav {
 .game {
   display: grid;
   height: 98vh;
-  grid-template-rows: 10% 10% 80%;
+  grid-template-rows: 1fr 1fr 8fr;
 }
 .board {
   display: grid;
   grid-template: repeat(3, 1fr) / repeat(3, 1fr);
+}
+.btn {
+  width: 100%;
+  border-radius: 5px;
+}
+.selected {
+  background-color: blueviolet;
 }

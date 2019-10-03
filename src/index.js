@@ -2,79 +2,18 @@ import React, {useState} from 'react';
 import ReactDOM from 'react-dom';
 
 import './index.css';
-// const Games = { 
-//   'ticTacToe': (
-//     <div className="game">
-//       <div className="title">
-//         <h1>Tic Tac Toe</h1>
-//       </div>
-//       <Display />
-//       <Board />
-//     </div>),
-//   'memory': (
-//     <div className="game">
-//       <div className="title">
-//         <h1>Memory</h1>
-//       </div>
-//       <Display />
-//       <div>Memory Board</div>
-//     </div>)
-// };
 
-// const NavBar = ({chooseGame, game})=>{
-//   let gamesList = Object.keys(Games).map( g => <li><button className={} onClick={()=>chooseGame('ticTacToe')}>Tic Tack Toe</button></li>)
-//   return (<nav>
-//   <ul>
-//     <a href="#">Home</a>
-    
-//     <li><button onClick={()=>chooseGame('memory')}>Memory</button></li>
-//   </ul>
-// </nav>);
-// }
-// const Display = ()=>{
-//   return (
-//     <div className="display">
-//       <h1>Next player: X</h1>
-//       <button>Controles</button>
-//     </div>);
-// };
-// const Board = ()=>{
-//   return (
-//     <div className="board">
-//       <div className="square"><button>1</button></div>
-//       <div className="square"><button>2</button></div>
-//       <div className="square"><button>3</button></div>
-//       <div className="square"><button>4</button></div>
-//       <div className="square"><button>5</button></div>
-//       <div className="square"><button>6</button></div>
-//       <div className="square"><button>7</button></div>
-//       <div className="square"><button>8</button></div>
-//       <div className="square"><button>9</button></div>
-//     </div>
-//   );
-// };
-// const Game = ({game}) =>{
-//   return games[game] || games['ticTacToe'];
-// };
-const Board = ({numSquares})=>(
-  <div className="board">
-    <div className="square"><button>1</button></div>
-    <div className="square"><button>2</button></div>
-    <div className="square"><button>3</button></div>
-    <div className="square"><button>4</button></div>
-    <div className="square"><button>5</button></div>
-    <div className="square"><button>6</button></div>
-    <div className="square"><button>7</button></div>
-    <div className="square"><button>8</button></div>
-    <div className="square"><button>9</button></div>
-  </div>
-);
+Array.prototype.radomize = () => this.forEach((v,i,a)=>console.log(v,i));
+const Board = ({row, col, peices} = {row:3, col:3, peices:[]})=>{
+  let squares = new Array(row * col).fill(1).map((v,i)=>(<div className="square"><button>{i}</button></div>));
+  return (<div className="board">{squares}</div>);
+};
 const Games = {
   'Tic Tac Toe': {
-
+    Board: Board
   },
   'Memory': {
-
+    Board: Board
   }
 };
 const Btn = ({handleClick, buttonText, className})=>(
@@ -92,22 +31,30 @@ const NavBar = ({Games, handleClick, game})=>{
     </ul>
   </nav>);
 };
-const Display = ()=>{
+const Display = ({row, col, setRow, setCol})=>{
+  // let inputs = Object.keys(gameState).map(v => (<li>
+  //   <label>{v}:<input name={v} type="number" value={'gameState[v]'} onChange={()=>console.log('()=>setGameState(gameState)')} /></label>
+  //   </li>));
   return (
     <div className="display">
-      <h1>Next player: X</h1>
-      <button>Controles</button>
+      <ul>Game Sate:
+        <li>row: <input type="number" value={row} /></li>
+        <li>col: <input type="number" value={col} /></li>
+      </ul>
     </div>);
 };
-const Game = ({game})=>(
-  <div className="game">
-    <div className="title">
-      <h1>{game}</h1>
-    </div>
-    <Display />
-    <div>Memory Board</div>
-  </div>);
-      
+const Game = ({game})=>{
+  const board = Games[game].Board();
+
+  return (
+    <div className="game">
+      <div className="title">
+        <h1>{game}</h1>
+      </div>
+      <Display row={3} col={3} />
+      {board}
+    </div>);
+};
 const App = () => {
   const [game, setGame] = useState('Memory');
   
