@@ -34,9 +34,13 @@ nav {
   height: 98vh;
   grid-template-rows: 1fr 1fr 8fr;
 }
+
 .board {
+  --row: 3;
+  --col: 3;
+
   display: grid;
-  grid-template: repeat(3, 1fr) / repeat(3, 1fr);
+  grid-template: repeat(var(--row), 1fr) / repeat(var(--col), 1fr);
 }
 .btn {
   width: 100%;
