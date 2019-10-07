@@ -1,4 +1,35 @@
-import randomizeArray from '../helperFunctions';
+import {deepCopy, randomizeArray} from '../helperFunctions';
+
+describe('deepCopy', ()=>{
+  it('is a function', ()=>{
+    expect(typeof(deepCopy)).toBe('function');
+  });
+  it('to return a new array', ()=>{
+    let arr = Object.freeze([1,2,3,4]);
+    let res = deepCopy(arr);
+
+    expect(res).not.toBe(arr);
+    expect(Array.isArray(res)).toBe(true);
+  });
+  it('should contain same values',()=>{
+    let arr = Object.freeze(new Array(100).fill(1).map((v,i)=>i));
+    expect(deepCopy(arr)).toEqual(arr);
+  });
+  it('should copy objects', ()=>{
+    let obj = { a: 56, b: 'swirl', c:true, d:null, e:0, f:undefined };
+    let res = deepCopy(obj);
+
+    expect(res).not.toBe(obj);
+    expect(res).toEqual(obj);
+  });
+  it('should copy compound objects', ()=>{
+    let obj = [{ a: 56, b: 'swirl', c:true, d:null, e:0, f:undefined },[],{},null,0,false,undefined, {a:{},'':''}];
+    let res = deepCopy(obj);
+
+    expect(res).not.toBe(obj);
+    expect(res).toEqual(obj);
+  });
+});
 
 describe('randomizeArray', ()=>{
   it('is a function', ()=>{
