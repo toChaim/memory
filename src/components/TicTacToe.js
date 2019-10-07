@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import Board from './Board';
 
 const Square = ({selected, handleClick, val, index}) => (
-  <button className="square" index={index}>
+  <button className="square" index={index} onClick={()=> handleClick(index)}>
     {val}
   </button>);
 
@@ -12,6 +12,11 @@ export default ()=>{
     status: 'Player X\'s turn.'
   });
 
+  const handleClick = index => {
+    let newState = gameState.peices.map(v=>v);
+    newState[index] = 'X';
+    setGameState({peices: newState});
+  };
   // const handleClick = index => {
   //   if(gameState.peices[index]){
   //     const status = gameState.status;
@@ -31,7 +36,7 @@ export default ()=>{
         <h1>Tic Tac Toe</h1>
       </div>
       <div className="display">{gameState.status}</div>
-      <Board row={3} col={3} squares={gameState.peices.map((v,i)=><Square val={v} index={i} />)}/>
+      <Board row={3} col={3} squares={gameState.peices.map((v,i)=><Square val={v} index={i} handleClick={handleClick}/>)}/>
       <div className="game-info">
         <div>{/* status */}</div>
         <ol>{/* TODO */}</ol>
