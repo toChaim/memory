@@ -3,10 +3,17 @@ import Board from './Board';
 
 import {deepCopy} from '../helperFunctions';
 
-const getTurn = arr => {
-  let moves = arr.reduce((t,v)=> t += !!v, 0)
-  console.log(moves)
-  return  moves % 2? 'O':'X';
+const getTurn = arr => arr.reduce((t,v)=> t += !!v, 0) % 2? 'O':'X';
+const getGameStatus = arr => {
+  for(let i = 0; i < 3; i++){
+    if(arr[i*3] && arr[i*3] === arr[i*3+1] &&  arr[i*3] === arr[i*3+2]){ return arr[i*3] + ' wins!!!'; }
+    if(arr[i] && arr[i] === arr[i + 3] && arr[i] === arr[i + 6]){ return arr[i] + ' wins!!!'; }
+  }
+  if(arr[0] && arr[0] === arr[4] && arr[0] === arr[8]){ return arr[0] + ' wins!!!'; }
+  if(arr[2] && arr[2] === arr[4] && arr[2] === arr[6]){ return arr[2] + ' wins!!!'; }
+  let moves = arr.reduce((t,v)=> t + !!v,0)
+  if(moves === 9){ return 'Tie Game.'}
+  return `Player ${moves % 2? 'O':'X'}'s move.`;
 }
 
 const Square = ({selected, handleClick, val, index}) => (
@@ -26,12 +33,13 @@ export default ()=>{
       const newState = {...deepCopy(gameState), status:'BAD MOVE'};
       setGameState(newState);
       setTimeout(()=>{
-        setGameState({...deepCopy(gameState), status: getTurn(gameState.peices)});
+        setGameState({...deepCopy(gameState), status: getGameStatus(gameState.peices)});
       },1000);
     }
     else{
       let newState = deepCopy(gameState);
       newState.peices[index] = getTurn(gameState.peices);
+      newState.status = getGameStatus(newState.peices);
       setGameState(newState);
     }
   };
