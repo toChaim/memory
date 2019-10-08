@@ -1,6 +1,14 @@
 import React, {useState} from 'react';
 import Board from './Board';
 
+import {deepCopy} from '../helperFunctions';
+
+const getTurn = arr => {
+  let moves = arr.reduce((t,v)=> t += !!v, 0)
+  console.log(moves)
+  return  moves % 2? 'O':'X';
+}
+
 const Square = ({selected, handleClick, val, index}) => (
   <button className="square" index={index} onClick={()=> handleClick(index)}>
     {val}
@@ -13,22 +21,20 @@ export default ()=>{
   });
 
   const handleClick = index => {
-    let newState = gameState.peices.map(v=>v);
-    newState[index] = 'X';
-    setGameState({peices: newState});
+    if(gameState.peices[index]){
+      const oldStatus = gameState.status;
+      const newState = {...deepCopy(gameState), status:'BAD MOVE'};
+      setGameState(newState);
+      setTimeout(()=>{
+        setGameState({...deepCopy(gameState), status: getTurn(gameState.peices)});
+      },1000);
+    }
+    else{
+      let newState = deepCopy(gameState);
+      newState.peices[index] = getTurn(gameState.peices);
+      setGameState(newState);
+    }
   };
-  // const handleClick = index => {
-  //   if(gameState.peices[index]){
-  //     const status = gameState.status;
-  //     setGameState({status: 'BAD MOVE'});
-  //     setTimeout(()=>{
-  //       setGameState({state: status});
-  //     },1000);
-  //   }
-  //   else{
-  //     //handle game state
-  //   }
-  // };
 
   return (
     <div className="game">
