@@ -32,8 +32,9 @@ const Square = ({selected, handleClick, val, index}) => (
 
 const StartState = (row = 4, col = 4, player1name = 'Player 1', player2name = 'Player 2') => {
   return {
-    player1name: player1name,
-    player2name: player2name,
+    guess: null,
+    turn: 0,
+    players: [{ name: player1name, score: 0 }, { name: player2name, score: 0 }],
     status: `${player1name}'s turn.`,
     row: row,
     col: col,
@@ -45,19 +46,35 @@ export default ()=>{
   const [gameState, setGameState] = useState(StartState());
 
   const handleSquareClick = index => {
-    // if(gameState.peices[index]){
-    //   const newState = {...deepCopy(gameState), status:'BAD MOVE'};
-    //   setGameState(newState);
-    //   setTimeout(()=>{
-    //     setGameState({...deepCopy(gameState), status: getGameStatus(gameState.peices)});
-    //   },1000);
-    // }
-    // else{
     let newState = deepCopy(gameState);
-    newState.peices[index] *= -1;
-    // newState.status = getGameStatus(newState.peices);
+
+    if(gameState.peices[index] < 0){
+      const oldStatus = gameState.status;
+      newState.status = 'BAD MOVE';
+      setTimeout(()=>{
+        setGameState({...deepCopy(gameState), status: oldStatus});
+      },1000);
+    }
+    else if(gameState.guess === null){
+      newState.peices[index] *= -1;
+      newState.guess = index;
+      // newState.status = getGameStatus(newState.peices);
+      setGameState(newState);
+    }
+    else if(gameState.peices[gameState.guess] === gameState.peices[index]){
+      newState.peices[newState.guess] *= -1;
+      newState.guess = null;
+      newState.players[newState.turn].score += 1;
+      newState.turn = Number(!newState.turn);
+      newState.status = `${newState.players[newState.turn].name}'s turn.`;
+    }
+    else {
+      newState.peices[newState.guess] *= -1;
+      newState.guess = null;
+      newState.turn = Number(!newState.turn);
+      newState.status = `${newState.players[newState.turn].name}'s turn.`;
+    }
     setGameState(newState);
-    // }
   };
 
   const handleResetClick = () => setGameState(StartState());
