@@ -22,15 +22,15 @@ const Square = ({selected, handleClick, val, index}) => (
   </button>);
 
 const StartState = {
-    peices: new Array(9).fill(''),
-    status: 'Player X\'s turn.'
+  peices: new Array(9).fill(''),
+  status: 'Player X\'s turn.'
 }
 
+export default ()=>{
   const [gameState, setGameState] = useState(StartState);
 
   const handleSquareClick = index => {
     if(gameState.peices[index]){
-      const oldStatus = gameState.status;
       const newState = {...deepCopy(gameState), status:'BAD MOVE'};
       setGameState(newState);
       setTimeout(()=>{
