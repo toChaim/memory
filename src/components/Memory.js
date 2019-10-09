@@ -2,32 +2,10 @@ import React, {useState} from 'react';
 import Board from './Board';
 
 import {deepCopy, randomizeArray} from '../helperFunctions';
-// old code
-// const MemorySquar = ({val, handleClick, selected})=>{
-//   return <div className={selected?'square selected':'square'}><button onClick={()=>handleClick(val)}>{selected?val:''}</button></div>;
-// };
-
-// tic tac toe code
-// export default ()=>{
-//   return (<div className="game">Memory</div>);
-// };
-
-// const getTurn = arr => arr.reduce((t,v)=> t += !!v, 0) % 2? 'O':'X';
-// const getGameStatus = arr => {
-//   for(let i = 0; i < 3; i++){
-//     if(arr[i*3] && arr[i*3] === arr[i*3+1] &&  arr[i*3] === arr[i*3+2]){ return arr[i*3] + ' wins!!!'; }
-//     if(arr[i] && arr[i] === arr[i + 3] && arr[i] === arr[i + 6]){ return arr[i] + ' wins!!!'; }
-//   }
-//   if(arr[0] && arr[0] === arr[4] && arr[0] === arr[8]){ return arr[0] + ' wins!!!'; }
-//   if(arr[2] && arr[2] === arr[4] && arr[2] === arr[6]){ return arr[2] + ' wins!!!'; }
-//   let moves = arr.reduce((t,v)=> t + !!v,0)
-//   if(moves === 9){ return 'Tie Game.'}
-//   return `Player ${moves % 2? 'O':'X'}'s move.`;
-// }
 
 const Square = ({selected, handleClick, val, index}) => (
   <button className={`square ${val < 0?'selected':''}`} index={index} onClick={()=> handleClick(index)}>
-    {Math.abs(val)}
+    {val < 0?Math.abs(val):''}
   </button>);
 
 const StartState = (row = 4, col = 4, player1name = 'Player 1', player2name = 'Player 2') => {
@@ -62,7 +40,7 @@ export default ()=>{
       setGameState(newState);
     }
     else if(gameState.peices[gameState.guess] === gameState.peices[index]){
-      newState.peices[newState.guess] *= -1;
+      newState.peices[index] *= -1;
       newState.guess = null;
       newState.players[newState.turn].score += 1;
       newState.turn = Number(!newState.turn);
