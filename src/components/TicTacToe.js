@@ -21,13 +21,14 @@ const Square = ({selected, handleClick, val, index}) => (
     {val}
   </button>);
 
-export default ()=>{
-  const [gameState, setGameState] = useState({
+const StartState = {
     peices: new Array(9).fill(''),
     status: 'Player X\'s turn.'
-  });
+}
 
-  const handleClick = index => {
+  const [gameState, setGameState] = useState(StartState);
+
+  const handleSquareClick = index => {
     if(gameState.peices[index]){
       const oldStatus = gameState.status;
       const newState = {...deepCopy(gameState), status:'BAD MOVE'};
@@ -44,13 +45,17 @@ export default ()=>{
     }
   };
 
+  const handleResetClick = () => setGameState(StartState);
   return (
     <div className="game">
       <div className="title">
         <h1>Tic Tac Toe</h1>
       </div>
-      <div className="display">{gameState.status}</div>
-      <Board row={3} col={3} squares={gameState.peices.map((v,i)=><Square val={v} index={i} handleClick={handleClick}/>)}/>
+      <div className="display">
+      {gameState.status}
+      <button onClick={handleResetClick}>Reset</button>
+      </div>
+      <Board row={3} col={3} squares={gameState.peices.map((v,i)=><Square val={v} index={i} handleClick={handleSquareClick}/>)}/>
       <div className="game-info">
         <div>{/* status */}</div>
         <ol>{/* TODO */}</ol>
