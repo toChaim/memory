@@ -30,17 +30,19 @@ const Square = ({selected, handleClick, val, index}) => (
     {Math.abs(val)}
   </button>);
 
-const StartState = {
-  player1name: 'Player 1',
-  player2name: 'Player 2',
-  row: 4,
-  col: 4,
-  peices: randomizeArray(new Array(16).fill('').map((v,i) => Math.floor(i/2)+1)),
-  status: 'Player 1\'s turn.'
+const StartState = (row = 4, col = 4, player1name = 'Player 1', player2name = 'Player 2') => {
+  return {
+    player1name: player1name,
+    player2name: player2name,
+    status: `${player1name}'s turn.`,
+    row: row,
+    col: col,
+    peices: randomizeArray(new Array(row*col).fill('').map((v,i) => Math.floor(i/2)+1))
+  };
 };
 
 export default ()=>{
-  const [gameState, setGameState] = useState(StartState);
+  const [gameState, setGameState] = useState(StartState());
 
   const handleSquareClick = index => {
     // if(gameState.peices[index]){
@@ -58,7 +60,7 @@ export default ()=>{
     // }
   };
 
-  const handleResetClick = () => setGameState(StartState);
+  const handleResetClick = () => setGameState(StartState());
 
   return (
     <div className="game">
@@ -69,6 +71,6 @@ export default ()=>{
         {gameState.status}
         <button onClick={handleResetClick}>Reset</button>
       </div>
-      <Board row={gameState.row} col={gameState.col} squares={gameState.peices.map((v,i)=><Square val={v} index={i} handleClick={handleSquareClick}/>)}/>
+      <Board row={gameState.row} col={gameState.col} squares={gameState.peices.map((v,i)=><Square val={v} index={i} key={i} handleClick={handleSquareClick}/>)}/>
     </div>);
 };
