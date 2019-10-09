@@ -16,7 +16,7 @@ const getGameStatus = arr => {
   return `Player ${moves % 2? 'O':'X'}'s move.`;
 }
 
-const Square = ({selected, handleClick, val, index}) => (
+const Square = ({handleClick, val, index}) => (
   <button className="square" index={index} onClick={()=> handleClick(index)}>
     {val}
   </button>);
@@ -56,9 +56,5 @@ export default ()=>{
       <button onClick={handleResetClick}>Reset</button>
       </div>
       <Board row={3} col={3} squares={gameState.peices.map((v,i)=><Square val={v} index={i} handleClick={handleSquareClick}/>)}/>
-      <div className="game-info">
-        <div>{/* status */}</div>
-        <ol>{/* TODO */}</ol>
-      </div>
     </div>);
 };
