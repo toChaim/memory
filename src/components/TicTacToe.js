@@ -55,6 +55,6 @@ export default ()=>{
       {gameState.status}
       <button onClick={handleResetClick}>Reset</button>
       </div>
-      <Board row={3} col={3} squares={gameState.peices.map((v,i)=><Square val={v} index={i} handleClick={handleSquareClick}/>)}/>
+      <Board row={3} col={3} squares={gameState.peices.map((v,i)=><Square val={v} index={i} key={i} handleClick={handleSquareClick}/>)}/>
     </div>);
 };
