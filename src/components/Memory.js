@@ -3,56 +3,80 @@ import Board from './Board';
 
 import {deepCopy, randomizeArray} from '../helperFunctions';
 
-const Square = ({selected, handleClick, val, index}) => (
-  <button className={`square ${val < 0?'selected':''}`} index={index} onClick={()=> handleClick(index)}>
-    {val < 0?Math.abs(val):''}
+const Square = ({visable, handleClick, val, index}) => (
+  <button className={`square ${visable}`} index={index} onClick={()=> handleClick(index)}>
+    {visable?val:''}
   </button>);
 
 const StartState = (row = 4, col = 4, player1name = 'Player 1', player2name = 'Player 2') => {
   return {
-    guess: null,
     turn: 0,
     players: [{ name: player1name, score: 0 }, { name: player2name, score: 0 }],
     status: `${player1name}'s turn.`,
     row: row,
     col: col,
-    peices: randomizeArray(new Array(row*col).fill('').map((v,i) => Math.floor(i/2)+1))
+    timer: 2,
+    guess: null,
+    peices: randomizeArray( new Array(row*col).fill('').map((v,i) => { return { val:Math.floor(i/2)+1, visable: null }; } ) )
   };
 };
+
+const handlePlayer1NameChange = e => setGameState({...deepCopy(gameState),players:[...gameState.players]});
+
+const Display = ({ status, player1, player2, handleResetClick}) => (
+  <div className="display">
+    {status}
+    <input type="text" value={player1.name} />
+    's Score:{player1.score}
+    <input type="text" value={player2.name} />
+    's Score:{player2.score}
+    <button onClick={handleResetClick}>Reset</button>
+  </div>
+);
 
 export default ()=>{
   const [gameState, setGameState] = useState(StartState());
 
   const handleSquareClick = index => {
     let newState = deepCopy(gameState);
-
-    if(gameState.peices[index] < 0){
-      const oldStatus = gameState.status;
+    if(newState.peices[index].visable){
+      newState.peices[index].visable += 'BAD';
       newState.status = 'BAD MOVE';
+      setGameState(newState);
       setTimeout(()=>{
-        setGameState({...deepCopy(gameState), status: oldStatus});
-      },1000);
+        setGameState({...deepCopy(gameState), status: `${gameState.players[gameState.turn].name}'s turn.`});
+      },gameState.timer * 1000);
     }
-    else if(gameState.guess === null){
-      newState.peices[index] *= -1;
-      newState.guess = index;
-      // newState.status = getGameStatus(newState.peices);
+    else if(newState.guess === null){
+      newState.guess = index;    
+      newState.peices[index].visable = 'SELECTED';
       setGameState(newState);
     }
-    else if(gameState.peices[gameState.guess] === gameState.peices[index]){
-      newState.peices[index] *= -1;
+    else if (newState.peices[index].val === newState.peices[newState.guess].val) {
+      newState.peices[index].visable = '' + newState.turn;
+      newState.peices[newState.guess].visable = '' + newState.turn;
+      newState.status = 'Match';
       newState.guess = null;
       newState.players[newState.turn].score += 1;
-      newState.turn = Number(!newState.turn);
-      newState.status = `${newState.players[newState.turn].name}'s turn.`;
+      setGameState(newState);
+      setTimeout(() => {
+        setGameState({ ...deepCopy(newState), status: `${newState.players[newState.turn].name}'s turn.` });
+      }, gameState.timer * 1000);
     }
-    else {
-      newState.peices[newState.guess] *= -1;
-      newState.guess = null;
-      newState.turn = Number(!newState.turn);
-      newState.status = `${newState.players[newState.turn].name}'s turn.`;
+    else{
+      newState.peices[index].visable = 'SELECTED';
+      newState.status = 'Not a Match';
+      newState.turn = newState.turn === 0 ? 1 : 0;
+      setGameState(newState);
+      setTimeout(() => {
+        let newNewState = deepCopy(newState);
+        newNewState.status = `${gameState.players[gameState.turn].name}'s turn.`
+        newNewState.peices[index].visable = null;
+        newNewState.peices[newNewState.guess].visable = null;
+        newNewState.guess = null;
+        setGameState(newNewState);
+      }, gameState.timer * 1000);
     }
-    setGameState(newState);
   };
 
   const handleResetClick = () => setGameState(StartState());
@@ -62,10 +86,7 @@ export default ()=>{
       <div className="title">
         <h1>Memory</h1>
       </div>
-      <div className="display">
-        {gameState.status}
-        <button onClick={handleResetClick}>Reset</button>
-      </div>
-      <Board row={gameState.row} col={gameState.col} squares={gameState.peices.map((v,i)=><Square val={v} index={i} key={i} handleClick={handleSquareClick}/>)}/>
+      <Display status={gameState.status} player1={gameState.players[0]} player2={gameState.players[1]} handleResetClick={handleResetClick}/>
+      <Board row={gameState.row} col={gameState.col} squares={gameState.peices.map((v,i)=><Square visable={v.visable} val={v.val} index={i} key={i} handleClick={handleSquareClick}/>)}/>
     </div>);
 };
