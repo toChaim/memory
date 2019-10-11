@@ -37,6 +37,56 @@ const Display = ({ status, player1, player2, handleResetClick}) => (
 export default ()=>{
   const [gameState, setGameState] = useState(StartState());
 
+  // const handleSquareClick = index => {
+  //   let newState = deepCopy(gameState);
+  //   if(newState.peices[index].visable){
+  //     newState.peices[index].visable += 'BAD';
+  //     newState.status = 'BAD MOVE';
+  //     setGameState(newState);
+  //     setTimeout(()=>{
+  //       setGameState({...deepCopy(gameState), status: `${gameState.players[gameState.turn].name}'s turn.`});
+  //     },gameState.timer * 1000);
+  //   }
+  //   else if(newState.guess){
+  //     newState.guess = index;    
+  //     newState.peices[index].visable = 'SELECTED';
+  //     setGameState(newState);
+  //   }
+  //   else if (newState.peices[index].val === newState.peices[newState.guess].val) {
+  //     newState.peices[index].visable = '' + newState.turn;
+  //     newState.peices[newState.guess].visable = '' + newState.turn;
+  //     newState.status = 'Match';
+  //     newState.guess = null;
+  //     newState.players[newState.turn].score += 1;
+  //     setGameState(newState);
+  //     setTimeout(() => {
+  //       setGameState({ ...deepCopy(newState), status: `${newState.players[newState.turn].name}'s turn.` });
+  //     }, gameState.timer * 1000);
+  //   }
+  //   else{
+  //     newState.peices[index].visable = 'SELECTED';
+  //     newState.status = 'Not a Match';
+  //     newState.turn = newState.turn === 0 ? 1 : 0;
+  //     setGameState(newState);
+  //     setTimeout(() => {
+  //       let newNewState = deepCopy(newState);
+  //       newNewState.status = `${gameState.players[gameState.turn].name}'s turn.`
+  //       newNewState.peices[index].visable = null;
+  //       newNewState.peices[newNewState.guess].visable = null;
+  //       newNewState.guess = null;
+  //       setGameState(newNewState);
+  //     }, gameState.timer * 1000);
+  //   }
+  // };
+
+  // const handleSquareClick = index => {
+  //   let newState = deepCopy(gameState);
+  // if (newState.guesses.length > 2 || newState.peices[index].visable) {
+  //   newState.peices[index].visable += 'BAD';
+  //   newState.status = 'BAD MOVE';
+  // }
+  // else if(){}
+  // };
   const handleSquareClick = index => {
     let newState = deepCopy(gameState);
     if(newState.peices[index].visable){
