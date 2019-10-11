@@ -16,12 +16,10 @@ const StartState = (row = 4, col = 4, player1name = 'Player 1', player2name = 'P
     row: row,
     col: col,
     timer: 2,
-    guess: null,
+    guesses: [],
     peices: randomizeArray( new Array(row*col).fill('').map((v,i) => { return { val:Math.floor(i/2)+1, visable: null }; } ) )
   };
 };
-
-const handlePlayer1NameChange = e => setGameState({...deepCopy(gameState),players:[...gameState.players]});
 
 const Display = ({ status, player1, player2, handleResetClick}) => (
   <div className="display">
@@ -87,46 +85,23 @@ export default ()=>{
   // }
   // else if(){}
   // };
+
+  const handlePlayer1NameChange = (e, player) => setGameState({ ...deepCopy(gameState), players: gameState.players.map((v, i) => i === player ? { ...v, name: e.value }:{...v})});
+
   const handleSquareClick = index => {
     let newState = deepCopy(gameState);
-    if(newState.peices[index].visable){
-      newState.peices[index].visable += 'BAD';
-      newState.status = 'BAD MOVE';
+    if (newState.guesses.length < 3){
+      newState.peices[index].visable = 'selected';
+      newState.guesses.push(index)
       setGameState(newState);
+    }
+    if(newState.guesses.length > 1){ 
       setTimeout(()=>{
-        setGameState({...deepCopy(gameState), status: `${gameState.players[gameState.turn].name}'s turn.`});
-      },gameState.timer * 1000);
-    }
-    else if(newState.guess === null){
-      newState.guess = index;    
-      newState.peices[index].visable = 'SELECTED';
-      setGameState(newState);
-    }
-    else if (newState.peices[index].val === newState.peices[newState.guess].val) {
-      newState.peices[index].visable = '' + newState.turn;
-      newState.peices[newState.guess].visable = '' + newState.turn;
-      newState.status = 'Match';
-      newState.guess = null;
-      newState.players[newState.turn].score += 1;
-      setGameState(newState);
-      setTimeout(() => {
-        setGameState({ ...deepCopy(newState), status: `${newState.players[newState.turn].name}'s turn.` });
-      }, gameState.timer * 1000);
-    }
-    else{
-      newState.peices[index].visable = 'SELECTED';
-      newState.status = 'Not a Match';
-      newState.turn = newState.turn === 0 ? 1 : 0;
-      setGameState(newState);
-      setTimeout(() => {
-        let newNewState = deepCopy(newState);
-        newNewState.status = `${gameState.players[gameState.turn].name}'s turn.`
-        newNewState.peices[index].visable = null;
-        newNewState.peices[newNewState.guess].visable = null;
-        newNewState.guess = null;
-        setGameState(newNewState);
-      }, gameState.timer * 1000);
-    }
+        let newState = deepCopy(gameState);
+        newState.guesses.forEach(v=> newState.peices[v].visable = null);
+        newState.guesses = [];
+        setGameState(newState);
+    },3000); }
   };
 
   const handleResetClick = () => setGameState(StartState());
