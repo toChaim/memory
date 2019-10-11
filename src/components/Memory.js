@@ -90,7 +90,7 @@ export default ()=>{
 
   const handleSquareClick = index => {
     let newState = deepCopy(gameState);
-    if (newState.guesses.length < 3){
+    if (newState.guesses.length < 2){
       newState.peices[index].visable = 'selected';
       newState.guesses.push(index)
       setGameState(newState);
@@ -100,6 +100,8 @@ export default ()=>{
         let newState = deepCopy(gameState);
         newState.guesses.forEach(v=> newState.peices[v].visable = null);
         newState.guesses = [];
+        newState.turn = newState.turn === 0? 1:0;
+        newState.status = `${newState.players[newState.turn].name}'s turn.` // should be refactored into the display componant
         setGameState(newState);
     },3000); }
   };
