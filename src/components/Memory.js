@@ -21,13 +21,30 @@ const StartState = (row = 4, col = 4, player1name = 'Player 1', player2name = 'P
   };
 };
 
-const Display = ({ status, player1, player2, handleResetClick}) => (
+// should add flash message
+
+// const Display = ({ status, player1, player2, handleResetClick}) => (
+//   <div className="display">
+//     {status}
+//     <input type="text" value={player1.name} />
+//     's Score:{player1.score}
+//     <input type="text" value={player2.name} />
+//     's Score:{player2.score}
+//     <button onClick={handleResetClick}>Reset</button>
+//   </div>
+// );
+
+const Display = ({ gameState, handleResetClick, handlePlayerUpdate }) => {
+  const {turn, players, message}=gameState;
+  console.log(players)
+  let playersComponents = players.map((v,i) => {
+    return (<div className={`player ${i === turn ? 'active' : ''}`}><input type="text" value={v.name} onChange={(e) => handlePlayerUpdate(e,i)}/> Score: {v.score}</div>);
+  });
+  return (
     <div className="display">
-    {status}
-    <input type="text" value={player1.name} />
-    's Score:{player1.score}
-    <input type="text" value={player2.name} />
-    's Score:{player2.score}
+      <div className="message">{message}</div>
+      <div className="status">{`${players[turn].name}'s turn.`}</div>
+      {playersComponents}
       <button onClick={handleResetClick}>Reset</button>
     </div>
 );};
