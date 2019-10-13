@@ -36,7 +36,6 @@ const StartState = (row = 4, col = 4, player1name = 'Player 1', player2name = 'P
 
 const Display = ({ gameState, handleResetClick, handlePlayerUpdate }) => {
   const {turn, players, message}=gameState;
-  console.log(players)
   let playersComponents = players.map((v,i) => {
     return (<div className={`player ${i === turn ? 'active' : ''}`}><input type="text" value={v.name} onChange={(e) => handlePlayerUpdate(e,i)}/> Score: {v.score}</div>);
   });
@@ -136,7 +135,6 @@ export default ()=>{
         // newNewState.turn = newNewState.turn === 0 ? 1 : 0;
         // newNewState.status = `${newNewState.players[newNewState.turn].name}'s turn.` // should be refactored into the display componant
         setGameState(newNewState);
-        console.log('newState.turn=' + newState.turn)
     },2000); }
   };
 
