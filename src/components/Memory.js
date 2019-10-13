@@ -22,15 +22,15 @@ const StartState = (row = 4, col = 4, player1name = 'Player 1', player2name = 'P
 };
 
 const Display = ({ status, player1, player2, handleResetClick}) => (
-  <div className="display">
+    <div className="display">
     {status}
     <input type="text" value={player1.name} />
     's Score:{player1.score}
     <input type="text" value={player2.name} />
     's Score:{player2.score}
-    <button onClick={handleResetClick}>Reset</button>
-  </div>
-);
+      <button onClick={handleResetClick}>Reset</button>
+    </div>
+);};
 
 export default ()=>{
   const [gameState, setGameState] = useState(StartState());
@@ -90,30 +90,54 @@ export default ()=>{
 
   const handleSquareClick = index => {
     let newState = deepCopy(gameState);
-    if (newState.guesses.length < 2){
+    if(newState.guesses.length < 2){
       newState.peices[index].visable = 'selected';
       newState.guesses.push(index)
-      setGameState(newState);
     }
-    if(newState.guesses.length > 1){ 
+    if (newState.guesses.length === 2){
+      if (newState.peices[newState.guesses[0]].val === newState.peices[newState.guesses[1]].val){
+        newState.players[newState.turn].score += 1;
+        newState.status = "That's a Match!";
+      }
+      else {
+        newState.status = "Not a Match.";
+      }
+    }
+    setGameState(newState);
+    if(newState.guesses.length === 2){ 
       setTimeout(()=>{
-        let newState = deepCopy(gameState);
-        newState.guesses.forEach(v=> newState.peices[v].visable = null);
-        newState.guesses = [];
-        newState.turn = newState.turn === 0? 1:0;
-        newState.status = `${newState.players[newState.turn].name}'s turn.` // should be refactored into the display componant
-        setGameState(newState);
-    },3000); }
+        let newNewState = deepCopy(newState);
+        if (newNewState.status === "That's a Match!"){
+          newNewState.guesses.forEach(v => newNewState.peices[v].visable = '' + newNewState.turn);
+        }
+        else{
+          newNewState.turn = newNewState.turn === 0 ? 1 : 0;
+          newNewState.guesses.forEach(v => newNewState.peices[v].visable = null);
+        }
+        // newNewState.guesses.forEach(v => newNewState.peices[v].visable = newNewState.status === "That's a Match!"? ''+newNewState.turn : null);
+        newNewState.guesses = [];
+        // newNewState.turn = newNewState.turn === 0 ? 1 : 0;
+        // newNewState.status = `${newNewState.players[newNewState.turn].name}'s turn.` // should be refactored into the display componant
+        setGameState(newNewState);
+        console.log('newState.turn=' + newState.turn)
+    },2000); }
   };
 
   const handleResetClick = () => setGameState(StartState());
 
+  const handlePlayerUpdate = (e,pi) => {
+    let players = gameState.players.map((v, i) => pi === i ? { ...v, name: e.target.value } : v);
+    setGameState(
+    {...deepCopy(gameState),
+        players: gameState.players.map((v, i) => pi === i ? { ...v, name: e.target.value}:v)}
+    );
+    }
   return (
     <div className="game">
       <div className="title">
         <h1>Memory</h1>
       </div>
-      <Display status={gameState.status} player1={gameState.players[0]} player2={gameState.players[1]} handleResetClick={handleResetClick}/>
+      <Display gameState={gameState} handleResetClick={handleResetClick} handlePlayerUpdate={handlePlayerUpdate}/>
       <Board row={gameState.row} col={gameState.col} squares={gameState.peices.map((v,i)=><Square visable={v.visable} val={v.val} index={i} key={i} handleClick={handleSquareClick}/>)}/>
     </div>);
 };
