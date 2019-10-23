@@ -11,6 +11,7 @@
 - Memory
   - Change timing to make it harder or easyer
   - Play with spatial memory by having non grid chapes. Geography Maps and Scattered
-  - Play with visual memory by having the cards have different images.
+  - Play with visual memory by having the cards have different images. Possibly shuffling cards in between turns.
   - Play with groups. Match not exact images but two items from the same group. Cats etc...
   - Play with words. Have word and image.
+  - Play with math. Pick pairs that add upto a target number.
