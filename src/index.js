@@ -5,6 +5,7 @@ import './index.css';
 
 import TicTacToe from './components/TicTacToe';
 import Memory from './components/Memory';
+import MathMemory from './components/MathMemory';
 
 // Attoms
 const Btn = ({handleClick, buttonText, className})=>(
@@ -16,7 +17,8 @@ const Btn = ({handleClick, buttonText, className})=>(
 // Data
 const Games = {
   'Tic Tac Toe': <TicTacToe />,
-  'Memory': <Memory />
+  'Memory': <Memory />,
+  'Math Memory': <MathMemory />
 };
 
 const NavBar = ({Games, handleClick, game})=>{
