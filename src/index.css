@@ -1,4 +1,4 @@
-body {
+/* body {
   font: 14px "Century Gothic", Futura, sans-serif;
   text-align: center;
   box-sizing: border-box;
@@ -11,14 +11,12 @@ h1 {
   border: 1px solid black;
   background: LightPink;
   margin: 0;
-  /* display: inline-block; */
-}
+} */
 ul {
   list-style-type: none;
   padding: 0;
 }
 .container {
-  /* width: 100%; */
   background: white;
   display: grid;
   grid-template-columns: minmax(50px, 1fr) 9fr;
@@ -35,14 +33,16 @@ nav {
   height: 98vh;
   grid-template-rows: 1fr 1fr 8fr;
 }
-:root {
+
+/* :root {
   --row: 3;
   --col: 3;
 }
+
 .board {
   display: grid;
   grid-template: repeat(var(--row), 1fr) / repeat(var(--col), 1fr);
-}
+} */
 .btn {
   width: 100%;
   border-radius: 5px;
@@ -50,14 +50,63 @@ nav {
 .selected {
   border: 5px solid yellowgreen;
 }
-.square {
+/* .square {
   display: block;
   font: 14px "Century Gothic", Futura, sans-serif;
-  /* margin: auto auto;
-  height: 90%;
-  width: 90%; */
 }
 
 .active {
   border: 1px solid red;
+} */
+
+body {
+  font: 14px "Century Gothic", Futura, sans-serif;
+  margin: 20px;
+}
+
+/* ol,
+ul {
+  padding-left: 30px;
+} */
+
+.board-row:after {
+  clear: both;
+  content: "";
+  display: table;
+}
+
+.status {
+  margin-bottom: 10px;
+}
+
+.square {
+  background: #fff;
+  border: 1px solid #999;
+  float: left;
+  font-size: 24px;
+  font-weight: bold;
+  line-height: 34px;
+  height: 34px;
+  margin-right: -1px;
+  margin-top: -1px;
+  padding: 0;
+  text-align: center;
+  width: 34px;
+}
+
+.square:focus {
+  outline: none;
+}
+
+.kbd-navigation .square:focus {
+  background: #ddd;
+}
+
+.game {
+  display: flex;
+  flex-direction: row;
+}
+
+.game-info {
+  margin-left: 20px;
 }
