@@ -22,18 +22,14 @@ const Board = ({ row, col, squares } = { row: 3, col: 3, squares: [] }) => (
     }}>{squares}</div>
 );
 
-class Game extends React.Component {
-  render() {
-    return (
-      <div className="game" style={{
-        'display': 'grid',
-        'gridTemplateRows': '1fr 1fr 8fr',
-      }}>
-        <div className="game-info">Player X's turn.</div>
-        <Board row={3} col={3} squares={new Array(9).fill(1).map((cur,idx)=>(<Square index={idx} key={idx}/>))}/>
-      </div>
-    );
-  }
-}
+const Game = () => (
+  <div className="game" style={{
+    'display': 'grid',
+    'gridTemplateRows': '1fr 1fr 8fr',
+  }}>
+    <div className="game-info">Player X's turn.</div>
+    <Board row={3} col={3} squares={new Array(9).fill(1).map((cur,idx)=>(<Square index={idx} key={idx}/>))}/>
+  </div>
+);
 
 export default Game;
