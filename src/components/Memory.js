@@ -1,17 +1,19 @@
 import React, {useState} from 'react';
 import Board from './Board';
 
-import {deepCopy, randomizeArray} from '../helperFunctions';
+import { deepCopy, randomizeArray } from '../helperFunctions';
+// const randomizeArray = a => a.map( v => v);
 
 const Square = ({visable, handleClick, val, index}) => (
   <button className={`square ${visable}`} index={index} onClick={()=> handleClick(index)}>
     {visable?val:''}
   </button>);
 
-const StartState = (row = 4, col = 4, player1name = 'Player 1', player2name = 'Player 2') => {
+const StartState = (row = 4, col = 4, player0name = localStorage.player0name || 'Player 1', player1name = localStorage.player1name || 'Player 2') => {
+
   return {
     turn: 0,
-    players: [{ name: player1name, score: 0 }, { name: player2name, score: 0 }],
+    players: [{ name: player0name, score: 0 }, { name: player1name, score: 0 }],
     status: `${player1name}'s turn.`,
     row: row,
     col: col,
@@ -20,19 +22,6 @@ const StartState = (row = 4, col = 4, player1name = 'Player 1', player2name = 'P
     peices: randomizeArray( new Array(row*col).fill('').map((v,i) => { return { val:Math.floor(i/2)+1, visable: null }; } ) )
   };
 };
-
-// should add flash message
-
-// const Display = ({ status, player1, player2, handleResetClick}) => (
-//   <div className="display">
-//     {status}
-//     <input type="text" value={player1.name} />
-//     's Score:{player1.score}
-//     <input type="text" value={player2.name} />
-//     's Score:{player2.score}
-//     <button onClick={handleResetClick}>Reset</button>
-//   </div>
-// );
 
 const Display = ({ gameState, handleResetClick, handlePlayerUpdate }) => {
   const {turn, players, message}=gameState;
@@ -106,7 +95,8 @@ export default ()=>{
 
   const handleSquareClick = index => {
     let newState = deepCopy(gameState);
-    if(newState.guesses.length < 2){
+    if (newState.guesses.length === 2) { return; }
+    if (newState.guesses.length < 2 && newState.peices[index].visable === null){
       newState.peices[index].visable = 'selected';
       newState.guesses.push(index)
     }
@@ -130,10 +120,7 @@ export default ()=>{
           newNewState.turn = newNewState.turn === 0 ? 1 : 0;
           newNewState.guesses.forEach(v => newNewState.peices[v].visable = null);
         }
-        // newNewState.guesses.forEach(v => newNewState.peices[v].visable = newNewState.status === "That's a Match!"? ''+newNewState.turn : null);
         newNewState.guesses = [];
-        // newNewState.turn = newNewState.turn === 0 ? 1 : 0;
-        // newNewState.status = `${newNewState.players[newNewState.turn].name}'s turn.` // should be refactored into the display componant
         setGameState(newNewState);
     },2000); }
   };
@@ -141,6 +128,7 @@ export default ()=>{
   const handleResetClick = () => setGameState(StartState());
 
   const handlePlayerUpdate = (e,pi) => {
+    localStorage[`player${pi}name`] = e.target.value;
     let players = gameState.players.map((v, i) => pi === i ? { ...v, name: e.target.value } : v);
     setGameState(
     {...deepCopy(gameState),

@@ -57,3 +57,7 @@ nav {
   height: 90%;
   width: 90%; */
 }
+
+.active {
+  border: 1px solid red;
+}

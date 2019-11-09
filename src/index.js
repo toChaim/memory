@@ -63,7 +63,7 @@ const NavBar = ({Games, handleClick, game})=>{
 // };
 
 const App = () => {
-  const [game, setGame] = useState('Memory');
+  const [game, setGame] = useState('Tic Tac Toe');
   
   return (<div className="container">
     <NavBar Games={Games} game={game} handleClick={setGame}/>

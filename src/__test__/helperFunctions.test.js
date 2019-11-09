@@ -35,6 +35,10 @@ describe('randomizeArray', ()=>{
   it('is a function', ()=>{
     expect(typeof(randomizeArray)).toBe('function');
   });
+  it('should return empty for empty',()=>{
+    expect(randomizeArray([])).toEqual([]);
+    expect(JSON.stringify(randomizeArray([]))).toBe(JSON.stringify([]));
+  });
   it('to return a new array', ()=>{
     let arr = Object.freeze([1,2,3,4]);
     expect(randomizeArray(arr)).not.toBe(arr);
