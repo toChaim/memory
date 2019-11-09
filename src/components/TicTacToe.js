@@ -1,13 +1,13 @@
 import React, {useState} from 'react';
 
-const Square = () => (
+const Square = ({index}) => (
   <button className="square">
-    {/* TODO */}
+    {index}
   </button>
 );
 
 const Board = () => {
-  const renderSquare = (i) => <Square />;
+  const renderSquare = (i) => <Square index={i}/>;
 
   const status = 'Next player: X';
 
