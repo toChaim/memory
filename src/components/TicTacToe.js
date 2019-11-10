@@ -15,7 +15,18 @@ const Square = ({value, handleClick}) => (
   </button>
 );
 
-const Board = ({ row, col, squares } = { row: 3, col: 3, squares: [] }) => (
+const GameInfo = ({players, turn}) => (
+  <div 
+    className="game-info"
+    style={{
+
+      'fontSize': '24px',
+      'fontWeight': 'bold',
+      'border': 'none',
+      'margin': 'auto'
+    }}
+  >Player {players[turn]}'s turn.</div>
+);
   <div className="board" 
     style={{ 
       'display': 'grid', 
@@ -49,7 +60,7 @@ const Game = () => {
       'display': 'grid',
       'gridTemplateRows': '1fr 1fr 8fr',
     }}>
-      <div className="game-info">Player X's turn.</div>
+      <GameInfo turn={turn} players={players}/>
       <Board row={3} col={3} squares={squares}/>
     </div>
   );
