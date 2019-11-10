@@ -61,7 +61,7 @@ const Game = () => {
   return (
     <div className="game" style={{
       'display': 'grid',
-      'gridTemplateRows': '1fr 1fr 8fr',
+      'gridTemplateRows': '1fr 8fr',
     }}>
       <GameInfo turn={turn} players={players}/>
       <Board row={3} col={3} squares={squares}/>
