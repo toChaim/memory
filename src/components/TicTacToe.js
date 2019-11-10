@@ -44,6 +44,9 @@ const Game = () => {
     setValues(values.map((cur,idx)=>i===idx?players[turn]:cur));
     setTurn(Number(!turn));
   };
+  useEffect(()=>{
+    console.log('effect');
+  },values);
 
   const squares = values.map((cur, idx) => (
     <Square 
