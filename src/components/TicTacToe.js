@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 
-const Square = ({index, handleClick}) => (
+const Square = ({value, handleClick}) => (
   <button 
     className="square" 
     onClick={handleClick}
@@ -9,7 +9,7 @@ const Square = ({index, handleClick}) => (
       'height': '100%',
     }}
   >
-    {index}
+    {value}
   </button>
 );
 
@@ -22,14 +22,35 @@ const Board = ({ row, col, squares } = { row: 3, col: 3, squares: [] }) => (
     }}>{squares}</div>
 );
 
-const Game = () => (
-  <div className="game" style={{
-    'display': 'grid',
-    'gridTemplateRows': '1fr 1fr 8fr',
-  }}>
-    <div className="game-info">Player X's turn.</div>
-    <Board row={3} col={3} squares={new Array(9).fill(1).map((cur,idx)=>(<Square index={idx} key={idx}/>))}/>
-  </div>
-);
+const Game = () => {
+  const [values,setValues] = useState(new Array(9).fill(''));
+  const players = ['X','O'];
+  const [turn, setTurn] = useState(0);
+  const move = i => {
+    if(values[i]){ return; }
+    setValues(values.map((cur,idx)=>i===idx?players[turn]:cur));
+    setTurn(Number(!turn));
+  };
+
+  const squares = values.map((cur, idx) => (
+    <Square 
+      value={cur} 
+      key={idx} 
+      handleClick={
+        () => { move(idx); }
+      }
+    />)
+  );
+
+  return (
+    <div className="game" style={{
+      'display': 'grid',
+      'gridTemplateRows': '1fr 1fr 8fr',
+    }}>
+      <div className="game-info">Player X's turn.</div>
+      <Board row={3} col={3} squares={squares}/>
+    </div>
+  );
+};
 
 export default Game;
