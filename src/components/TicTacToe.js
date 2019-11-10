@@ -27,6 +27,7 @@ const GameInfo = ({players, turn}) => (
     }}
   >Player {players[turn]}'s turn.</div>
 );
+
 const Board = ({ row=3, col=3, squares } = { row: 3, col: 3, squares: [] }) => (
   <div className="board" 
     style={{ 
