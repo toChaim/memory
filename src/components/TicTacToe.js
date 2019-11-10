@@ -27,6 +27,7 @@ const GameInfo = ({players, turn}) => (
     }}
   >Player {players[turn]}'s turn.</div>
 );
+const Board = ({ row=3, col=3, squares } = { row: 3, col: 3, squares: [] }) => (
   <div className="board" 
     style={{ 
       'display': 'grid', 
@@ -64,7 +65,7 @@ const Game = () => {
       'gridTemplateRows': '1fr 8fr',
     }}>
       <GameInfo turn={turn} players={players}/>
-      <Board row={3} col={3} squares={squares}/>
+      <Board squares={squares}/>
     </div>
   );
 };
