@@ -52,13 +52,30 @@ const Game = () => {
   const [message, setMessage] = useState('Player X\'s turn.');
 
   const move = i => {
-    if(values[i]){ return; }
+    if(values[i] || message !== `Player ${players[turn]}'s turn.`){ return; }
     setValues(values.map((cur,idx)=>i===idx?players[turn]:cur));
     setTurn(Number(!turn));
   };
   useEffect(()=>{
-    console.log('effect');
-  },values);
+    let message = '';
+    let justMoved = players[Number(!turn)];
+
+    for (let i = 0; i < 3; i++){
+      if(values[i*3] === justMoved && values[i*3] === values[i*3+1] && values[i*3] === values[i*3+2] ){
+        message = `${justMoved} Wins!!!`;
+      }
+      else if (values[i] === justMoved && values[i] === values[i + 3] && values[i] === values[i + 6]) {
+        message = `${justMoved} Wins!!!`;
+      }
+      // if (values[i*3] === justMoved && values[i*3] === values[i*3 + 1] && values[i] === values[i*3+2]){
+      //   message = `${justMoved} Wins!!!`;
+      // }
+      // else if (values[i] === justMoved && values[i] === values[i + 3] && values[i] === values[i + 6]) {
+      //   message = `${justMoved} Wins!!!`;
+      // }
+    }
+    setMessage(message || `Player ${players[turn]}'s turn.`);
+  },[values, players, turn]);
 
   const squares = values.map((cur, idx) => (
     <Square 
