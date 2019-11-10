@@ -7,6 +7,8 @@ const Square = ({value, handleClick}) => (
     style={{
       'width': '100%',
       'height': '100%',
+      'fontSize': '24px',
+      'fontWeight': 'bold'
     }}
   >
     {value}
