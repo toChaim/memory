@@ -23,44 +23,17 @@ const Games = {
 
 const NavBar = ({Games, handleClick, game})=>{
   let gamesList = Object.keys(Games).map( g => (<li key={g}><Btn className={game===g? 'selected':'not'} handleClick={handleClick} buttonText={g} /></li>));
-  return (<nav>
+  return (<nav style={{
+    border: '5px solid pink',
+    borderRadius: '5px',
+    gridRow: '1 / -1',
+  }}>
     <ul>
       Games
       {gamesList}
     </ul>
   </nav>);
 };
-
-// const Display = ({row, col, setRow, setCol})=>{
-  
-//   return (
-//     <div className="display">
-//         row: <input type="number" value={row} onChange={e => setRow(e.target.value)}/>
-//         col: <input type="number" value={col} onChange={e => setCol(e.target.value)}/>
-//       {/* <Btn handleClick={() => setGameStatus('start')} buttonText={Start} /> */}
-//     </div>);
-// };
-
-// const Game = ({game})=>{
-//   let [row, setRow] = useState(Games[game]['row'] || 3);
-//   let [col, setCol] = useState(Games[game]['col'] || 3);
-//   let [gameStatus, setGameStatus] = useState(Games[game]['status'] || new Array(row*col).fill(1).map((v,i)=>{return {val: i, selected: false};}));
-//   let selectSquare = val => {
-//     let state = gameStatus.map(v => { return {...v}; });
-//     state[val].selected = !state[val].selected;
-//     setGameStatus(state);
-//   }
-//   let squares = gameStatus.map((v)=> <MemorySquar val={v.val} selected={v.selected} handleClick={selectSquare}/>);
-
-//   return (
-//     <div className="game">
-//       <div className="title">
-//         <h1>{game}</h1>
-//       </div>
-//       <Display row={row} setRow={setRow} col={col} setCol={setCol}/>
-//       <Board row={row} col={col} squares={squares}/>
-//     </div>);
-// };
 
 const App = () => {
   const [game, setGame] = useState('Tic Tac Toe');
