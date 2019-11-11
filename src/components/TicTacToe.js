@@ -41,7 +41,8 @@ const Board = ({ row=3, col=3, squares } = { row: 3, col: 3, squares: [] }) => (
     style={{ 
       'display': 'grid', 
       'gridTemplate': `repeat(${row}, 1fr) / repeat(${col}, 1fr)`,
-      border: '5px solid pink'
+      border: '5px solid pink',
+      borderRadius: '5px'
     }}>{squares}</div>
 );
 
@@ -61,18 +62,21 @@ const Game = () => {
     let justMoved = players[Number(!turn)];
 
     for (let i = 0; i < 3; i++){
-      if(values[i*3] === justMoved && values[i*3] === values[i*3+1] && values[i*3] === values[i*3+2] ){
+      if (justMoved === values[i * 3] && justMoved === values[i * 3 + 1] && justMoved === values[i*3+2] ){
         message = `${justMoved} Wins!!!`;
       }
-      else if (values[i] === justMoved && values[i] === values[i + 3] && values[i] === values[i + 6]) {
+      else if (justMoved === values[i] && justMoved === values[i + 3] && justMoved === values[i + 6]) {
         message = `${justMoved} Wins!!!`;
       }
-      // if (values[i*3] === justMoved && values[i*3] === values[i*3 + 1] && values[i] === values[i*3+2]){
-      //   message = `${justMoved} Wins!!!`;
-      // }
-      // else if (values[i] === justMoved && values[i] === values[i + 3] && values[i] === values[i + 6]) {
-      //   message = `${justMoved} Wins!!!`;
-      // }
+    }
+    if (justMoved === values[0] && justMoved === values[4] && justMoved === values[8]) {
+      message = `${justMoved} Wins!!!`;
+    } 
+    if (justMoved === values[2] && justMoved === values[4] && justMoved === values[6]) {
+      message = `${justMoved} Wins!!!`;
+    }
+    if(values.filter(v => v).length === 9 && !message){
+      message = 'Tie Game.';
     }
     setMessage(message || `Player ${players[turn]}'s turn.`);
   },[values, players, turn]);
