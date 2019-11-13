@@ -38,7 +38,15 @@ const NavBar = ({Games, handleClick, game})=>{
 const App = () => {
   const [game, setGame] = useState('Tic Tac Toe');
   
-  return (<div className="container">
+  return (<div className="container"
+    style={{
+      background: 'white',
+      display: 'grid',
+      gridTemplateColumns: 'minmax(50px, 1fr) 9fr',
+      gridGap: '5px',
+      padding: '5px',
+      height: '98vh'
+    }}>
     <NavBar Games={Games} game={game} handleClick={setGame}/>
     {Games[game]}
   </div>);

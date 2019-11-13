@@ -3,47 +3,7 @@ body {
   text-align: center;
   box-sizing: border-box;
   margin: 0;
-  height: 99vh;
-  width: 99vw;
-}
-
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-.container {
-  background: white;
-  display: grid;
-  grid-template-columns: minmax(50px, 1fr) 9fr;
-  grid-gap: 10px;
-}
-
-.game {
-  display: grid;
-  height: 98vh;
-  grid-template-rows: 1fr 1fr 8fr;
-}
-
-.btn {
-  width: 100%;
+  height: 100vh;
+  width: 100vw;
   border-radius: 5px;
-}
-.selected {
-  border: 5px solid yellowgreen;
-}
-.square {
-  background: #fff;
-  border: 1px solid #999;
-  font-size: 24px;
-  font-weight: bold;
-  padding: 0;
-  text-align: center;
-}
-
-.square:focus {
-  outline: none;
-}
-
-.kbd-navigation .square:focus {
-  background: #ddd;
 }
