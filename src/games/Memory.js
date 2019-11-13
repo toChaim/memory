@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import Board from './Board';
+import Board from '../components/Board';
 
 import { deepCopy, randomizeArray } from '../helperFunctions';
 // const randomizeArray = a => a.map( v => v);
