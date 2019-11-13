@@ -3,36 +3,15 @@ import ReactDOM from 'react-dom';
 
 import './index.css';
 
-import TicTacToe from './components/TicTacToe';
-// import Memory from './components/Memory';
-// import MathMemory from './components/MathMemory';
-
-// Attoms
-const Btn = ({handleClick, buttonText, className})=>(
-  <button className={className + ' btn'} 
-    onClick={() => handleClick(buttonText)}>
-    {buttonText}
-  </button>);
+import NavBar from './components/NavBar';
+import TicTacToe from './games/TicTacToe';
+// import Memory from './components/Memory'; 
 
 // Data
 const Games = {
   'Tic Tac Toe': <TicTacToe />,
   // 'Memory': <Memory />,
   // 'Math Memory': <MathMemory />
-};
-
-const NavBar = ({Games, handleClick, game})=>{
-  let gamesList = Object.keys(Games).map( g => (<li key={g}><Btn className={game===g? 'selected':'not'} handleClick={handleClick} buttonText={g} /></li>));
-  return (<nav style={{
-    border: '5px solid pink',
-    borderRadius: '5px',
-    gridRow: '1 / -1',
-  }}>
-    <ul>
-      Games
-      {gamesList}
-    </ul>
-  </nav>);
 };
 
 const App = () => {
