@@ -17,8 +17,9 @@ const Square = ({idx, value, handleClick}) => {
   return (<button 
     ref={myRef}
     id={`sqr${idx}`}
-    className="square" 
-    onClick={() => handleClick(idx, myRef.current ? myRef.current.getBoundingClientRect() : '')}
+    className="square"
+    // onClick={() => handleClick(idx, myRef.current ? myRef.current.getBoundingClientRect() : '')}
+    onClick={() => handleClick(idx)}
     style={{
       'width': '100%',
       'height': '100%',
@@ -59,8 +60,7 @@ const Board = ({ row=3, col=3, squares } = { row: 3, col: 3, squares: [] }) => {
       const oldIdx = Number(document.activeElement.id.substr(3));
       const keyCode = event.keyCode;
       if(keyCode === 37){
-        // oldIdx-oldIdx%row+(oldIdx-1)%row
-        document.getElementById(`sqr${((row*col+oldIdx)-(oldIdx%row)+((oldIdx-1+row))%row)%(row*col)}`).focus();
+        document.getElementById(`sqr${oldIdx - oldIdx % row + (row + oldIdx - 1) % row}`).focus();
       }
       else if (keyCode === 38) {
         document.getElementById(`sqr${(row*col+oldIdx-row)%(row*col)}`).focus();
@@ -75,8 +75,6 @@ const Board = ({ row=3, col=3, squares } = { row: 3, col: 3, squares: [] }) => {
         document.activeElement.click();
       }
       
-      // this is not robust
-      // document.getElementById(`sqr${}`)
     }
   };
 
@@ -108,16 +106,16 @@ const Board = ({ row=3, col=3, squares } = { row: 3, col: 3, squares: [] }) => {
 
 const Game = () => {
   const [values,setValues] = useState(new Array(9).fill(''));
-  const [dots, setDots] = useState(new Array(9).fill(''));
+  // const [dots, setDots] = useState(new Array(9).fill(''));
   const players = ['X','O'];
   const [turn, setTurn] = useState(0);
   const [message, setMessage] = useState('Player X\'s turn.');
 
-  const move = (i,dot) => {
-  // const move = (i) => {
+  // const move = (i,dot) => {
+  const move = (i) => {
     if(values[i] || message !== `Player ${players[turn]}'s turn.`){ return; }
     setValues(values.map((cur,idx)=>i===idx?players[turn]:cur));
-    setDots(dots.map((cur, idx) => i === idx ? dot : cur));
+    // setDots(dots.map((cur, idx) => i === idx ? dot : cur));
     setTurn(Number(!turn));
   };
 
