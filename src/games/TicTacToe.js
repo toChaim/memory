@@ -38,18 +38,23 @@ const GameInfo = ({ message, handleReset}) => (
     className="game-info"
     style={{
       'display': 'grid',
-      'gridTemplateColumns': '2fr 1fr',
+      'gridTemplateColumns': '1fr 1fr 1fr',
       'fontSize': '24px',
       'fontWeight': 'bold',
       'border': 'none',
-      'margin': 'auto'
+      'margin': 'auto',
+      'width': '100%'
     }}
   >
-    <div>{message}</div>
+    <div
+      style={{
+        'gridColumnStart': '2'
+      }}
+    >{message}</div>
     <div style={{
-      'display': 'flex',
+      'display': 'grid',
       'alignItems': 'center',
-      'justifyContent': 'center',
+      'justifyContent': 'end',
     }}><button onClick={handleReset}>Reset</button></div>
   </div>
 );
