@@ -1,58 +1,5 @@
 import React, {useState, useEffect} from 'react';
 
-// const Dot = ({dimensions}) => {
-//   return (<div className="dot" style={{
-//     position: 'absolute',
-//     width: '100%',
-//     top: (dimensions.top || 10) + (dimensions.height || 50)/2 - 10 + 'px',
-//     left: (dimensions.left || 10) + (dimensions.width || 50)/2 - 10 + 'px',
-//     height: '5px',
-//     backgroundColor: 'red',
-//     borderRadius: '20px',
-//   }}></div>);};
-
-const Point = ({x,y}) => (<div className="point" style={{
-  'position': 'absolute',
-  'top': `${x}px`,
-  'left': `${y}px`,
-  'width': '1px',
-  'height': '1px',
-  'backgroundColor': 'red',
-  'borderRadius': '100%'
-}} ></div>);
-
-const Line = ({x1,y1,x2,y2}) => {
-  // must handle 0
-  let rise = y2-y1;
-  let run = x2-x1;
-
-  return [
-    (<Point x={x1} y={y1} />),
-    (<Point x={x2} y={y2} />), 
-    (<div className="line" key="0" style={{
-      'position': 'absolute',
-      'border': '0.5px solid black',
-      'transformOrigin': `${y1}px ${x1}px`,
-      'transform': `rotate(${90-Math.atan(rise/run)*180/Math.PI}deg)`,
-      'top': y1 + 'px',
-      'left': x1 + 'px',
-      'width': `${Math.pow((rise*rise+run*run),0.5)}px`
-    }}></div>)];
-};
-
-const Flash = () => {
-  const [visibility, setVisibility] = useState(false);
-  const [message, setMessage] = useState('');
-  const [type, setType] = useState('');
-
-  return (
-    visibility && <div className={`alert alert-${type}`}>
-      <p>{message}</p>
-      <button className="close" onClick={()=> setVisibility(false)}>X</button>
-    </div>
-  );
-};
-
 const Square = ({ idx, content, condition, handleClick}) => {
   // const myRef = React.createRef();
   let background = 'white';
@@ -149,12 +96,9 @@ const Board = ({ row=3, col=3, squares } = { row: 3, col: 3, squares: [] }) => {
 
 const Game = () => {
   const [values, setValues] = useState(new Array(9).fill('').map(cur => { return { "content": '', 'condition': ''}; }));
-  // const [dots, setDots] = useState(new Array(9).fill(''));
   const players = ['X','O'];
   const [turn, setTurn] = useState(0);
-  // const [message, setMessage] = useState('Player X\'s turn.');
 
-  // const move = (i,dot) => {
   const move = (i) => {
     if(values[i].content || turn >= players.length){ return; }
     let newValues = values.map((cur,idx)=>i===idx?{...cur,'content': players[turn]}:{...cur});
@@ -188,9 +132,7 @@ const Game = () => {
     if (newValues.filter(cur => cur.content).length === 9 && turn < players.length) {
       newTurn  = players.length * 2;
     }
-    // setValues([...newValues.slice(0,9),(<Line x1={50} y1={50} x2={200} y2={200}/>)]);
 
-    // setDots(dots.map((cur, idx) => i === idx ? dot : cur));
     setValues(newValues);
     setTurn(newTurn);
   };
@@ -203,33 +145,6 @@ const Game = () => {
       key={idx}
       handleClick={() => move(idx)}
     />));
-
-  // useEffect(()=>{
-  //   let message = '';
-  //   let justMoved = players[Number(!turn)];
-
-  //   for (let i = 0; i < 3; i++){
-  //     if (justMoved === values[i * 3] && justMoved === values[i * 3 + 1] && justMoved === values[i*3+2] ){
-  //       message = `${justMoved} Wins!!!`;
-  //     }
-  //     else if (justMoved === values[i] && justMoved === values[i + 3] && justMoved === values[i + 6]) {
-  //       message = `${justMoved} Wins!!!`;
-  //     }
-  //   }
-  //   if (justMoved === values[0] && justMoved === values[4] && justMoved === values[8]) {
-  //     message = `${justMoved} Wins!!!`;
-  //   } 
-  //   if (justMoved === values[2] && justMoved === values[4] && justMoved === values[6]) {
-  //     message = `${justMoved} Wins!!!`;
-  //   }
-  //   if(values.filter(v => v).length === 9 && !message){
-  //     message = 'Tie Game.';
-  //   }
-  //   // setValues([...values.slice(0,9),(<Line x1={50} y1={50} x2={200} y2={200}/>)]);
-  //   setMessage(message || `Player ${players[turn]}'s turn.`);
-  // },[values, players, turn]);
-
-  // const dotComponants = dots.filter(cur => cur).map((cur, idx) => (<Dot dimensions={cur} key={idx}/>));
 
   const handleReset = ()=> {
     setValues(new Array(9).fill('').map(cur => { return { "content": '', 'condition': '' }; }));
@@ -250,7 +165,6 @@ const Game = () => {
     }}>
       <GameInfo message={getMessage(values, turn)} handleReset={handleReset}/>
       <Board squares={squares}/>
-      {/* {dotComponants} */}
     </div>
   );
 };
