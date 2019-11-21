@@ -1,5 +1,4 @@
 import React, {useState, useEffect} from 'react';
-import { relative } from 'path';
 
 // const Dot = ({dimensions}) => {
 //   return (<div className="dot" style={{
