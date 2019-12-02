@@ -5,13 +5,15 @@ import './index.css';
 
 import NavBar from './components/NavBar';
 import TicTacToe from './games/TicTacToe';
-// import Memory from './components/Memory'; 
+// import Memory from './components/Memory';
+// import GetSize from './games/Sandbox';
 
 // Data
 const Games = {
   'Tic Tac Toe': <TicTacToe />,
   // 'Memory': <Memory />,
-  // 'Math Memory': <MathMemory />
+  // 'Math Memory': <MathMemory />,
+  // 'GetSize': <GetSize />
 };
 
 const App = () => {
