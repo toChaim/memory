@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect, useReducer} from 'react';
 import { useComponentSize } from '../helperFunctions';
 import Line from '../Line';
 // import Board from '../Board';
@@ -73,11 +73,18 @@ const Board = ({ row = 3, col = 3, squares, extras, boardRef } = { row: 3, col: 
     }
   };
 
+  useEffect(() => {
+    window.addEventListener('keydown', handleKeyPress);
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyPress);
+    };
+  }, []);
+
   return (
     <div
       ref={boardRef}
       className="board"
-      onKeyDown={handleKeyPress}
       style={{
         position: 'relative',
         display: 'grid',
