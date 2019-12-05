@@ -1,7 +1,7 @@
 import React, {useState, useEffect, useReducer} from 'react';
 import { useComponentSize } from '../helperFunctions';
 import Line from '../Line';
-// import Board from '../Board';
+import Board from '../Board';
 
 const Square = ({ idx, content, condition, handleClick }) => (
   <button
@@ -54,8 +54,17 @@ const GameInfo = ({ message, handleReset }) => (
   </div>
 );
 
-const Board = ({ row = 3, col = 3, squares, extras, boardRef } = { row: 3, col: 3}) => {
+const Game = () => {
+  const [values, setValues] = useState(new Array(9).fill('').map((cur) => ({ content: '', condition: '' })));
+  const players = ['X', 'O'];
+  const [turn, setTurn] = useState(0);
+  const [wins, setWins] = useState([]);
+  const [dimensions, ref] = useComponentSize();
+
   const handleKeyPress = (event) => {
+    const row = 3;
+    const col = 3;
+
     if (document.activeElement.id.substr(0, 3) === 'sqr') {
       const oldIdx = Number(document.activeElement.id.substr(3));
       const { keyCode } = event;
@@ -80,34 +89,6 @@ const Board = ({ row = 3, col = 3, squares, extras, boardRef } = { row: 3, col: 
       window.removeEventListener('keydown', handleKeyPress);
     };
   }, []);
-
-  return (
-    <div
-      ref={boardRef}
-      className="board"
-      style={{
-        position: 'relative',
-        display: 'grid',
-        gridTemplate: `repeat(${row}, 1fr) / repeat(${col}, 1fr)`,
-        gridGap: '5px',
-        padding: '5px',
-        border: '5px solid pink',
-        borderRadius: '5px',
-        backgroundColor: 'white',
-      }}
-    >
-      {extras}
-      {squares}
-    </div>
-  );
-};
-
-const Game = () => {
-  const [values, setValues] = useState(new Array(9).fill('').map((cur) => ({ content: '', condition: '' })));
-  const players = ['X', 'O'];
-  const [turn, setTurn] = useState(0);
-  const [wins, setWins] = useState([]);
-  const [dimensions, ref] = useComponentSize();
 
   const move = (i) => {
     if (values[i].content || turn >= players.length) { return; }
